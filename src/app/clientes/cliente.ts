@@ -6,4 +6,5 @@ export class Cliente {
     email: string = '';
     createAt: string = '';
     status: string = '';
+    photo: string = '';
 }

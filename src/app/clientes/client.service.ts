@@ -49,4 +49,17 @@ export class ClientService {
     )
   }
 
+  uploadFoto(file: File, idClient: string) {
+    let formData = new FormData();
+    formData.append("file", file);
+    formData.append("id", idClient);
+    return this.http.post(`${this.urlEndpoint}/upload/`, formData).pipe(
+      catchError(e => {
+        console.error(e.error.message);
+        swal('Ocurrio un error', e.error.message, 'error');
+        return throwError(e);
+      })
+    )
+  }
+
 }

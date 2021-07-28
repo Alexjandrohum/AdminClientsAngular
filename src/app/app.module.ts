@@ -11,13 +11,21 @@ import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { CreateComponent } from './clientes/create/create.component';
 import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { DetailComponent } from './clientes/detail/detail.component';
+
 
 const routes: Routes = [
   {path: '', redirectTo: '/clientes', pathMatch: 'full'},
   {path: 'directivas', component: DirectivaComponent},
   {path: 'clientes', component: ClientesComponent},
   {path: 'clientes/crear', component: CreateComponent},
-  {path: 'clientes/findbyid/:id', component: CreateComponent}
+  {path: 'clientes/findbyid/:id', component: CreateComponent},
+  {path: 'clientes/showDetail/:id', component: DetailComponent}
+
 ]
 
 @NgModule({
@@ -27,13 +35,18 @@ const routes: Routes = [
     FooterComponent,
     DirectivaComponent,
     ClientesComponent,
-    CreateComponent
+    CreateComponent,
+    DetailComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    BrowserAnimationsModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    MatMomentDateModule
   ],
   providers: [
     ClientService
