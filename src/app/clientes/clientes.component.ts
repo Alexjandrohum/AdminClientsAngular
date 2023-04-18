@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ClientService } from './client.service';
 import { Cliente } from './cliente';
 import swal from 'sweetalert2';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-clientes',
@@ -16,7 +17,14 @@ public clientes: Cliente[] = [];
   }
 
   ngOnInit(): void {
-    this.clienteService.getClientes().subscribe(
+    this.clienteService.getClientes().pipe(
+      tap(clientes => {
+        console.log('CLienteComponent: tap3')
+        clientes.forEach(cliente => {
+          console.log(cliente.nombre);
+        })
+      })
+    ).subscribe(
       clientes => this.clientes = clientes
     );
   }

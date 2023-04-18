@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { Cliente } from './cliente';
-import { catchError, map} from 'rxjs/operators';
+import { catchError, map, tap} from 'rxjs/operators';
 import swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { formatDate, DatePipe, registerLocaleData } from '@angular/common';
@@ -20,7 +20,15 @@ export class ClientService {
 
   getClientes(): Observable<Cliente[]>{
     let url = this.urlEndpoint + "/listClient";
+
     return this.http.get(url).pipe(
+      tap(response => {
+        let cliente = response as Cliente[];
+        console.log('ClientService: tap1')
+        cliente.forEach(cliente => {
+          console.log(cliente.nombre);
+        })
+      }),
       map(response => {
         let clientes = response as Cliente[];
         return clientes.map(cliente => {
@@ -31,6 +39,12 @@ export class ClientService {
           //cliente.createAt = datePipe.transform(cliente.createAt, 'EEEE dd, MMMM yyyy');
           return cliente;
         });
+      }),
+      tap(response => {
+        console.log('ClientService: tap2')
+        response.forEach(cliente => {
+          console.log(cliente.nombre);
+        })
       })
     );
   }
