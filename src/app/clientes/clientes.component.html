@@ -31,13 +31,13 @@
                         {{cliente.nombre}}
                     </td>
                     <td>
-                        {{cliente.apellidoPaterno}}
+                        {{cliente.apellidoPaterno | uppercase}}
                     </td>
                     <td>
                         {{cliente.email}}
                     </td>
                     <td>
-                        {{cliente.createAt}}
+                        {{cliente.createAt | date:"EEEE dd, MMMM yyyy"}}
                     </td>
                     <td>
                       <button type="button" name="button" [routerLink] = "['/clientes/findbyid', cliente.id]" class="btn btn-primary btn-sm">

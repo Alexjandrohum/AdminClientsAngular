@@ -2,9 +2,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { Cliente } from './cliente';
-import { catchError} from 'rxjs/operators';
+import { catchError, map} from 'rxjs/operators';
 import swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { formatDate, DatePipe, registerLocaleData } from '@angular/common';
+import localeES from '@angular/common/locales/es-MX'
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +19,29 @@ export class ClientService {
   constructor(private http: HttpClient, private router: Router) { }
 
   getClientes(): Observable<Cliente[]>{
+    let url = this.urlEndpoint + "/listClient";
+    return this.http.get(url).pipe(
+      map(response => {
+        let clientes = response as Cliente[];
+        return clientes.map(cliente => {
+          cliente.nombre = cliente.nombre.toUpperCase();
+          //Cliente.createAt = formatDate(cliente.createAt, 'dd-MM-yyyy', 'en-US')
+          registerLocaleData(localeES, 'es');
+          let datePipe = new DatePipe('es');
+          //cliente.createAt = datePipe.transform(cliente.createAt, 'EEEE dd, MMMM yyyy');
+          return cliente;
+        });
+      })
+    );
+  }
+  /**
+   *
+   * @param cliente
+   * @returns
+   * getClientes(): Observable<Cliente[]>{
     return this.http.get<Cliente[]>(`${this.urlEndpoint}/listClient`);
   }
+   */
 
   createcliente(cliente: Cliente): Observable<Cliente>{
     return this.http.post<Cliente>(`${this.urlEndpoint}/createClient`, cliente, {headers: this.httpHeaders})

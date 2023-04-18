@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent} from './header/header.component';
@@ -49,7 +49,7 @@ const routes: Routes = [
     MatMomentDateModule
   ],
   providers: [
-    ClientService
+    ClientService, {provide: LOCALE_ID, useValue: 'es'}
   ],
   bootstrap: [AppComponent]
 })
